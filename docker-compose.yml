@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  db-human-resource:
+    image: postgres:17.0-bullseye
+    restart: always
+    environment:
+      POSTGRES_DB: 'db_human_resource'
+      POSTGRES_USER: 'rrhh'
+      POSTGRES_PASSWORD: 'rrhh'
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+    volumes:
+      - ./dbfiles/my-db:/var/lib/postgresql/data
+      - ./dbconf:/etc/postgresql/conf.d/custom.conf
+volumes:
+  my-db:
