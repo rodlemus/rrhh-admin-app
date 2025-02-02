@@ -47,11 +47,6 @@ public class EmpleadoRepositorio implements IEmpleadosRepositorio{
     }
 
     @Override
-    public Empleado buscar(Empleado empleado) {
-        return null;
-    }
-
-    @Override
     public List<Empleado> listar(int offset, int limit) {
         String sql = "SELECT numerodui, nombrepersona, usuario, numerotelefono, correoinstitucional, fechanacimiento " +
                 "FROM empleados LIMIT ? OFFSET ?;";
