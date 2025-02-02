@@ -33,7 +33,7 @@
             <h5 class="card-title">Módulo 1 - Registrar Empleado</h5>
             <p class="card-text">En este modulo se registran los empleados y sus datos personales es un paso previo al crear la contratación en el sistema.</p>
           </div>
-          <a href="#" class="btn btn-primary">Acceder</a>
+          <a href="${contextPath}/router-app?modulo=empleados" class="btn btn-primary">Acceder</a>
         </div>
 
       </div>
@@ -45,7 +45,7 @@
             <h5 class="card-title flex-fill">Módulo 2 - Administrar Propiedas Del Empleado</h5>
             <p class="card-text">Este modulo es encargado de ingresar - modificar - y listar, propiedades como el cargo, tipo de contrato y departamento</p>
           </div>
-          <a href="#" class="btn btn-primary">Acceder</a>
+          <a href="${contextPath}/router-app?modulo=propiedades" class="btn btn-primary">Acceder</a>
         </div>
 
       </div>

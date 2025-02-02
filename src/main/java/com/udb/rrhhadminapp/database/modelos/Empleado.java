@@ -1,4 +1,4 @@
-package com.udb.rrhhadminapp.database.entidades;
+package com.udb.rrhhadminapp.database.modelos;
 
 import java.util.Date;
 

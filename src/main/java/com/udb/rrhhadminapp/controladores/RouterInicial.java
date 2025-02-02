@@ -15,17 +15,16 @@ public class RouterInicial extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String moduloDeseado = request.getParameter("modulo");
 
-        ServletContext ctx = getServletContext();
         switch (moduloDeseado) {
             case "contrataciones":
-                ctx.getRequestDispatcher("/WEB-INF/views/modulo-contrataciones/registrar-contratacion.jsp").forward(request, response);
+
                 response.sendRedirect(request.getContextPath() + "/contrataciones");
                 break;
             case "empleados":
-                ctx.getRequestDispatcher("/WEB-INF/views/modulo-contrataciones/registrar-contratacion.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/contrataciones");
                 break;
             case "propiedades":
-                ctx.getRequestDispatcher("/WEB-INF/views/modulo-contrataciones/registrar-contratacion.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/contrataciones");
                 break;
         }
 

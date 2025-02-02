@@ -1,7 +1,7 @@
 package com.udb.rrhhadminapp.database.repositorios;
 
 import com.udb.rrhhadminapp.database.ConexionBaseDeDatos;
-import com.udb.rrhhadminapp.database.entidades.Empleado;
+import com.udb.rrhhadminapp.database.modelos.Empleado;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.Connection;
@@ -81,5 +81,20 @@ public class EmpleadoRepositorio implements IEmpleadosRepositorio{
         }
 
         return empleados;
+    }
+
+    @Override
+    public Empleado buscarPorId(Long id) {
+        return null;
+    }
+
+    @Override
+    public Empleado buscarPorDui(String dui) {
+        return null;
+    }
+
+    @Override
+    public void actualizar(Empleado empleado) {
+
     }
 }
