@@ -98,7 +98,7 @@
                 <button class="btn btn-warning">Editar</button>
               </td>
               <td>
-                <button class="btn btn-danger">Eliminar</button>
+                <button class="btn btn-danger" onclick="eliminarEmpleado(${empleado.getIdEmpleado()})">Eliminar</button>
               </td>
             </tr>
           </c:forEach>
@@ -113,6 +113,7 @@
   <p class="mb-0">© 2025 Desarrollo de Aplicaciones con Web Frameworks.</p>
 </footer>
 <script>
+  const contextPath = "<%= request.getContextPath() %>";
   // logica pra el funcionamiento de los tabs de bootrap
   const buttonTabs = document.querySelectorAll(".nav-tabs button")
   console.log(buttonTabs)
@@ -132,7 +133,42 @@
       desiredTabContent.classList.add("show","active")
     })
   }
+
+
+  // Función para eliminar empleado mediante un HTTP DELETE
+  const eliminarEmpleado = async (empleadoId) => {
+    try {
+      // Hacer la solicitud DELETE al endpoint
+      const response = await fetch(contextPath+'/eliminar-empleado?id='+empleadoId, {
+        method: 'DELETE',  // Especificamos que es un método DELETE
+        headers: {
+          'Content-Type': 'application/json'  // Establecemos el tipo de contenido
+        }
+      });
+
+      // Verificar si la respuesta fue exitosa
+      if (response.ok) {
+        const result = await response.json(); // Parseamos la respuesta JSON
+        Swal.fire({
+          title: result.message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: result.message,
+          icon: "error"
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error, del sistema, contactar con un tecnico.",
+        icon: "error"
+      });
+    }
+  };
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>

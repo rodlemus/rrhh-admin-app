@@ -8,7 +8,7 @@ public interface IEmpleadosRepositorio {
      Empleado guardar(Empleado empleado);
      void eliminar(Empleado empleado);
      List<Empleado> listar(int offset, int limit);
-     Empleado buscarPorId(Long id);
+     Empleado buscarPorId(Integer id);
      Empleado buscarPorDui(String dui);
      void actualizar(Empleado empleado);
 

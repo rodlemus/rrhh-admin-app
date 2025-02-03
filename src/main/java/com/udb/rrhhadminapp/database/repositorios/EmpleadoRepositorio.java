@@ -45,8 +45,8 @@ public class EmpleadoRepositorio implements IEmpleadosRepositorio{
 
     @Override
     public List<Empleado> listar(int offset, int limit) {
-        String sql = "SELECT numerodui, nombrepersona, usuario, numerotelefono, correoinstitucional, fechanacimiento " +
-                "FROM empleados LIMIT ? OFFSET ?;";
+        String sql =
+                "SELECT * FROM empleados LIMIT ? OFFSET ?;";
         List<Empleado> empleados = new ArrayList<>();
 
         try (Connection connection = ConexionBaseDeDatos.getConnection();
@@ -58,6 +58,7 @@ public class EmpleadoRepositorio implements IEmpleadosRepositorio{
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 empleados.add(new Empleado(
+                        rs.getInt("id"),
                         rs.getString("numerodui"),
                         rs.getString("nombrepersona"),
                         rs.getString("usuario"),
@@ -76,9 +77,42 @@ public class EmpleadoRepositorio implements IEmpleadosRepositorio{
     }
 
     @Override
-    public Empleado buscarPorId(Long id) {
-        return null;
+    public Empleado buscarPorId(Integer id) {
+        String sql = "SELECT * FROM empleados WHERE id = ?";
+
+        try (Connection connection = ConexionBaseDeDatos.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            // Establecer el parámetro 'id' en la consulta
+            statement.setLong(1, id);
+
+            // Ejecutar la consulta
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    // Si encontramos un registro, lo mapeamos a un objeto Empleado
+                    Empleado empleado = new Empleado(
+                            rs.getInt("id"),
+                            rs.getString("numerodui"),
+                            rs.getString("nombrepersona"),
+                            rs.getString("usuario"),
+                            rs.getString("numerotelefono"),
+                            rs.getString("correoinstitucional"),
+                            rs.getDate("fechanacimiento")
+                    );
+
+                    return empleado;
+                } else {
+                    // Si no se encuentra el empleado, retornamos null
+                    return null;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al buscar el empleado", e);
+        }
     }
+
 
     @Override
     public Empleado buscarPorDui(String dui) {

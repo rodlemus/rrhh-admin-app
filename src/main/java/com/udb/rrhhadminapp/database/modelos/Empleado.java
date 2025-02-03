@@ -3,6 +3,8 @@ package com.udb.rrhhadminapp.database.modelos;
 import java.util.Date;
 
 public class Empleado {
+
+    private Integer idEmpleado;
     private String numeroDui;
     private String nombre;
     private String usuario;
@@ -12,6 +14,18 @@ public class Empleado {
 
 
     public Empleado(String numeroDui, String nombre, String usuario, String numeroTelefono, String correoInstitucional, Date fechaNacimiento) {
+        this.numeroDui = numeroDui;
+        this.nombre = nombre;
+        this.usuario = usuario;
+        this.numeroTelefono = numeroTelefono;
+        this.correoInstitucional = correoInstitucional;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    // este contructor sera util cuando traigamos empleados desde los repositorios a la base de datos
+    // ya que en esa parte si contaremos con el id que genera la base de datos
+    public  Empleado(Integer idEmpleado, String numeroDui, String nombre, String usuario, String numeroTelefono, String correoInstitucional, Date fechaNacimiento){
+        this.idEmpleado = idEmpleado;
         this.numeroDui = numeroDui;
         this.nombre = nombre;
         this.usuario = usuario;
@@ -67,5 +81,13 @@ public class Empleado {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public Integer getIdEmpleado() {
+        return idEmpleado;
+    }
+
+    public void setIdEmpleado(Integer idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 }
