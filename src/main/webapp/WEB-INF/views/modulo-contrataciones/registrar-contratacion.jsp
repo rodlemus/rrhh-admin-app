@@ -23,7 +23,7 @@
                     <a class="nav-link" aria-current="page" href="${contextPath}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="${contextPath}">Registrar Empleado</a>
+                    <a class="nav-link" aria-current="page" href="${contextPath}/empleados">Registrar Empleado</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="${contextPath}">Administrar Propiedas Del Empleado</a>

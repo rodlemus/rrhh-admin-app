@@ -17,14 +17,13 @@ public class RouterInicial extends HttpServlet {
 
         switch (moduloDeseado) {
             case "contrataciones":
-
                 response.sendRedirect(request.getContextPath() + "/contrataciones");
                 break;
             case "empleados":
-                response.sendRedirect(request.getContextPath() + "/contrataciones");
+                response.sendRedirect(request.getContextPath() + "/empleados");
                 break;
             case "propiedades":
-                response.sendRedirect(request.getContextPath() + "/contrataciones");
+                response.sendRedirect(request.getContextPath() + "/propiedades");
                 break;
         }
 

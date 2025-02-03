@@ -29,10 +29,7 @@ public class EmpleadoRepositorio implements IEmpleadosRepositorio{
             statement.setString(5, empleado.getCorreoInstitucional());
             statement.setDate(6, new java.sql.Date(empleado.getFechaNacimiento().getTime()));
 
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                empleado.setNumeroDui(rs.getString("numero_dui"));
-            }
+            statement.executeUpdate();
             return empleado;
 
         } catch (SQLException e) {
