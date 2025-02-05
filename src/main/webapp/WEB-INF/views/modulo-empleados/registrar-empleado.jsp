@@ -98,7 +98,7 @@
                 <button class="btn btn-warning">Editar</button>
               </td>
               <td>
-                <button class="btn btn-danger" onclick="eliminarEmpleado(${empleado.getIdEmpleado()})">Eliminar</button>
+                <button class="btn btn-danger" onclick="eliminarEmpleado(e,${empleado.getIdEmpleado()})">Eliminar</button>
               </td>
             </tr>
           </c:forEach>
@@ -136,7 +136,7 @@
 
 
   // Función para eliminar empleado mediante un HTTP DELETE
-  const eliminarEmpleado = async (empleadoId) => {
+  const eliminarEmpleado = async (event, empleadoId) => {
     try {
       // Hacer la solicitud DELETE al endpoint
       const response = await fetch(contextPath+'/eliminar-empleado?id='+empleadoId, {
@@ -145,9 +145,10 @@
           'Content-Type': 'application/json'  // Establecemos el tipo de contenido
         }
       });
-
+      console.log(response)
       // Verificar si la respuesta fue exitosa
-      if (response.ok) {
+      if (response.status) {
+        console.log(event.target.parentNode)
         const result = await response.json(); // Parseamos la respuesta JSON
         Swal.fire({
           title: result.message,
@@ -160,6 +161,7 @@
         });
       }
     } catch (error) {
+      console.log(error)
       Swal.fire({
         title: "Error, del sistema, contactar con un tecnico.",
         icon: "error"

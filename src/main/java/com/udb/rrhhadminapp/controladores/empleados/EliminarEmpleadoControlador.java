@@ -21,15 +21,15 @@ public class EliminarEmpleadoControlador extends HttpServlet {
     IEmpleadosRepositorio empleadosRepositorio;
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String empleadoId = request.getParameter("id");
+        Integer empleadoId = Integer.parseInt(request.getParameter("id"));
 
-        Optional<Empleado> empleado = Optional.of(this.empleadosRepositorio.buscarPorId(Integer.parseInt(empleadoId)));
+        Optional<Empleado> empleado = Optional.of(this.empleadosRepositorio.buscarPorId(empleadoId));
         // Configurar la respuesta para que sea de tipo JSON
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         if (empleado.isPresent()) {
-            empleadosRepositorio.eliminar(empleado.get());
+            empleadosRepositorio.eliminar(empleadoId);
             // Si el ID fue proporcionado, enviamos una respuesta de éxito
             String jsonResponse = "{\"message\": \"Empleado eliminado exitosamente\", \"id\": \"" + empleadoId + "\"}";
             response.getWriter().write(jsonResponse);

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IEmpleadosRepositorio {
      Empleado guardar(Empleado empleado);
-     void eliminar(Empleado empleado);
+     void eliminar(Integer empleadoId);
      List<Empleado> listar(int offset, int limit);
      Empleado buscarPorId(Integer id);
      Empleado buscarPorDui(String dui);

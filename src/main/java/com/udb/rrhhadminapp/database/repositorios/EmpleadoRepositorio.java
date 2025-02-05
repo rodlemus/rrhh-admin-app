@@ -39,8 +39,19 @@ public class EmpleadoRepositorio implements IEmpleadosRepositorio{
     }
 
     @Override
-    public void eliminar(Empleado empleado) {
+    public void eliminar(Integer empleadoId) {
+        String sql = "DELETE FROM empleados WHERE id = ?;";
 
+        try (Connection connection = ConexionBaseDeDatos.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, empleadoId);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al eliminar el empleado con ID: " + empleadoId, e);
+        }
     }
 
     @Override
@@ -84,7 +95,7 @@ public class EmpleadoRepositorio implements IEmpleadosRepositorio{
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             // Establecer el parámetro 'id' en la consulta
-            statement.setLong(1, id);
+            statement.setInt(1, id);
 
             // Ejecutar la consulta
             try (ResultSet rs = statement.executeQuery()) {
