@@ -33,7 +33,7 @@
             <h5 class="card-title">Módulo 1 - Registrar Empleado</h5>
             <p class="card-text">En este modulo se registran los empleados y sus datos personales es un paso previo al crear la contratación en el sistema.</p>
           </div>
-          <a href="${contextPath}/router-app?modulo=empleados" class="btn btn-primary">Acceder</a>
+          <a href="${contextPath}/agregar_form.jsp" class="btn btn-primary">Acceder</a>
         </div>
 
       </div>
