@@ -23,8 +23,8 @@ public class CargoRepositorio implements ICargoRepositorio {
         try (Connection conn = ConexionBaseDeDatos.getConnection();
             PreparedStatement ps = conn.prepareStatement(query)) {
 
-            ps.setInt(1, offset);
-            ps.setInt(2, limit);
+            ps.setInt(1, limit);
+            ps.setInt(2, offset);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
