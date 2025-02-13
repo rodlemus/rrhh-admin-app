@@ -38,7 +38,7 @@
         </div>
 
         <div class="container mt-2 mb-4">
-            <button class="btn btn-success p-2 text-white text-center" id="agregar_cargo">
+            <button class="btn btn-success p-2 text-white text-center" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarCargo">
                 <strong class="ml-3">Agregar nuevo cargo</strong>
                 <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
                     <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
@@ -59,13 +59,13 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="cargos-tab-pane" role="tabpanel" aria-labelledby="cargos-tab" tabindex="0">
                         <table class="table table-striped w-full">
-                            <thead class="p-3">
+                            <thead>
                                 <tr class="text-center">
                                     <th>ID</th>
                                     <th>Nombre del cargo</th>
                                     <th>Descripcion del cargo</th>
                                     <th>Jefatura</th>
-                                    <th>Acciones</th>
+                                    <th style="width: 20%;">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,8 +75,8 @@
                                     <td>${cargo.getCargo()}</td>
                                     <td>${cargo.getDescripcionCargo()}</td>
                                     <td>${cargo.isJefatura()}</td>
-                                    <td class="d-flex justify-content-center align-items-center flex-gap-4">
-                                        <button class="btn btn-warning">
+                                    <td class="d-flex justify-content-center align-items-center gap-2">
+                                        <button class="btn btn-warning btn-editar" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarCargo" data-id="${cargo.getIdCargo()}" data-cargo="${cargo.getCargo()}" data-desc="${cargo.getDescripcionCargo()}" data-jefatura="${cargo.isJefatura()}">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
                                                 <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
                                             </svg>
@@ -103,11 +103,110 @@
         </div>
     </section>
 
+    <!-- Modales de agregar registros (cargos, tipos de contrato y departamentos) -->
+    <div class="modal fade" id="modalAgregarCargo" tabindex="-1" aria-labelledby="modalAgregarCargo" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Agregar Cargo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="registrar-cargo" method="post">
+                        <div class="mb-3">
+                            <label for="cargo" class="form-label">Nombre del cargo:</label>
+                            <input type="text" class="form-control" id="cargo" aria-labelledby="nombreCargo" name="cargo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcionCargo" class="form-label">Descripcion del cargo:</label>
+                            <textarea class="form-control" id="descripcionCargo" rows="3" name="descripcionCargo"></textarea>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="jefatura" name="jefatura">
+                            <label class="form-check-label ml-2" for="jefatura">Jefatura</label>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modales de actualizar registros-->
+    <div class="modal fade" id="modalEditarCargo" tabindex="-1" aria-labelledby="modalEditarCargoLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Agregar Cargo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="actualizar-cargo" method="post">
+                        <!-- Campo oculto para el ID del cargo -->
+                        <input type="hidden" id="edit-idCargo" name="idCargo">
+
+                        <div class="mb-3">
+                            <label for="edit-cargo" class="form-label">Nombre del cargo:</label>
+                            <input type="text" id="edit-cargo" class="form-control" aria-labelledby="nombreCargo" name="cargo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-descripcionCargo" class="form-label">Descripcion del cargo:</label>
+                            <textarea id="edit-descripcionCargo" class="form-control" rows="3" name="descripcionCargo"></textarea>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input class="form-check-input" id="edit-jefatura" type="checkbox" value="" name="jefatura">
+                            <label class="form-check-label ml-2" for="edit-jefatura">Jefatura</label>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="bg-dark text-light text-center py-3">
         <p class="mb-0">© 2025 Desarrollo de Aplicaciones con Web Frameworks.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+    <script>
+
+        // Funcion para cargar los datos de cargo en el modal de actualizar
+        const mostrarCargos = () => {
+            document.addEventListener("DOMContentLoaded", function() {
+                const editarButton = document.querySelectorAll(".btn-editar");
+
+                editarButton.forEach(button => {
+                   button.addEventListener('click', function() {
+                       // Obtenemos los datos del atributo data-
+                       const idCargo = this.getAttribute("data-id");
+                       const cargo = this.getAttribute("data-cargo");
+                       const descripcionCargo = this.getAttribute("data-desc");
+                       const jefatura = this.getAttribute("data-jefatura") === "true";
+
+                       // Y pasamos los datos obtenidos al form
+                       document.getElementById("edit-idCargo").value = idCargo;
+                       document.getElementById("edit-cargo").value = cargo;
+                       document.getElementById("edit-descripcionCargo").value = descripcionCargo;
+                       document.getElementById("edit-jefatura").checked = jefatura;
+
+                       console.log(idCargo)
+                       console.log(cargo)
+                       console.log(descripcionCargo)
+                       console.log(jefatura)
+                   });
+                });
+            });
+        }
+        mostrarCargos();
+    </script>
 </body>
 </html>

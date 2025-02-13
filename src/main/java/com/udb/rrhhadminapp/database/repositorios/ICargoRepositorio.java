@@ -8,7 +8,7 @@ public interface ICargoRepositorio {
 
     List<Cargo> listarCargos(int offset, int limit);
     Cargo agregarCargo(Cargo cargo);
-    void actualizarCargo(Integer id);
+    void actualizarCargo(Cargo cargo);
     void eliminarCargo(Integer id);
 
     Cargo buscarCargoPorId(Integer id);

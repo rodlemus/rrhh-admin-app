@@ -19,7 +19,7 @@ public class CargosControlador extends HttpServlet {
     private ICargoRepositorio cargoRepositorio;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Cargo> cargos = this.cargoRepositorio.listarCargos(0, 5);
+        List<Cargo> cargos = this.cargoRepositorio.listarCargos(0, 8);
         request.setAttribute("cargos", cargos);
         request.getRequestDispatcher("/WEB-INF/views/modulo-detalles_contrataciones/mostrar-detalles.jsp").forward(request, response);
     }

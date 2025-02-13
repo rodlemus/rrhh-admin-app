@@ -45,7 +45,7 @@ public class CargoRepositorio implements ICargoRepositorio {
 
     @Override
     public Cargo agregarCargo(Cargo cargo){
-        String query = "INSERT INTO cargos (cargo, descripcionCargo, jefatura)" + "VALUES (?,?,?);)";
+        String query = "INSERT INTO cargos(cargo, descripcionCargo, jefatura) values(?,?,?);";
 
         try (Connection conn = ConexionBaseDeDatos.getConnection();
             PreparedStatement ps = conn.prepareStatement(query)) {
@@ -62,16 +62,25 @@ public class CargoRepositorio implements ICargoRepositorio {
     }
 
     @Override
-    public void actualizarCargo(Integer id) {
+    public void actualizarCargo(Cargo cargo) {
         String query = "UPDATE cargos SET cargo = ? , descripcionCargo = ?, jefatura = ? WHERE id = ?;";
 
         try (Connection conn = ConexionBaseDeDatos.getConnection();
             PreparedStatement ps = conn.prepareStatement(query)) {
 
+            ps.setString(1, cargo.getCargo());
+            ps.setString(2, cargo.getDescripcionCargo());
+            ps.setBoolean(3, cargo.isJefatura());
+            ps.setInt(4, cargo.getIdCargo());
 
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows == 0) {
+                throw new RuntimeException("Error: No se pudo encontrar el cargo con ID: " + cargo.getIdCargo());
+            }
 
         } catch(SQLException ex) {
-
+            ex.printStackTrace();
+            throw new RuntimeException("Error al actualizar cargo" ,ex);
         }
     }
 
