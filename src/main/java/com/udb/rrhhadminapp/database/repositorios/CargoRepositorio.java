@@ -17,7 +17,7 @@ public class CargoRepositorio implements ICargoRepositorio {
     // Metodo para mostrar los cargos desde la tabla cargos en la base
     @Override
     public List<Cargo> listarCargos(int offset, int limit) {
-        String query = "SELECT * FROM cargos LIMIT ? OFFSET ?;";
+        String query = "SELECT * FROM cargos ORDER BY id ASC LIMIT ? OFFSET ?;";
         List<Cargo> cargos = new ArrayList<>();
 
         try (Connection conn = ConexionBaseDeDatos.getConnection();

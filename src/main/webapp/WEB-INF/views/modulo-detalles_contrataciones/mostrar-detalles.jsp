@@ -81,7 +81,7 @@
                                                 <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
                                             </svg>
                                         </button>
-                                        <button class="btn btn-danger">
+                                        <button class="btn btn-danger btn-eliminar" type="button" data-bs-toggle="modal" data-bs-target="#modalEliminarCargo" data-id="${cargo.getIdCargo()}" data-cargo="${cargo.getCargo()}">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
                                                 <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
                                             </svg>
@@ -122,7 +122,7 @@
                             <textarea class="form-control" id="descripcionCargo" rows="3" name="descripcionCargo"></textarea>
                         </div>
                         <div class="mb-3 form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="jefatura" name="jefatura">
+                            <input class="form-check-input" type="checkbox" value="true" id="jefatura" name="jefatura">
                             <label class="form-check-label ml-2" for="jefatura">Jefatura</label>
                         </div>
                         <div class="modal-footer">
@@ -157,7 +157,7 @@
                             <textarea id="edit-descripcionCargo" class="form-control" rows="3" name="descripcionCargo"></textarea>
                         </div>
                         <div class="mb-3 form-check">
-                            <input class="form-check-input" id="edit-jefatura" type="checkbox" value="" name="jefatura">
+                            <input class="form-check-input" id="edit-jefatura" type="checkbox" name="jefatura" value="true" ${cargo.jefatura ? 'checked' : ''}>
                             <label class="form-check-label ml-2" for="edit-jefatura">Jefatura</label>
                         </div>
                         <div class="modal-footer">
@@ -165,6 +165,26 @@
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para eliminar registros -->
+    <div class="modal fade" id="modalEliminarCargo" tabindex="-1" aria-labelledby="modalEliminarCargoLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Confirmación de eliminación de registro</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        ¿Deseas eliminar el cargo con ID: <span id="del-id"></span> y Nombre: <span id="del-cargo"></span> ?
+                    </p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Confirmar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -180,33 +200,46 @@
     <script>
 
         // Funcion para cargar los datos de cargo en el modal de actualizar
-        const mostrarCargos = () => {
+        const mostrarCargosActualizar = () => {
             document.addEventListener("DOMContentLoaded", function() {
                 const editarButton = document.querySelectorAll(".btn-editar");
 
                 editarButton.forEach(button => {
-                   button.addEventListener('click', function() {
-                       // Obtenemos los datos del atributo data-
-                       const idCargo = this.getAttribute("data-id");
-                       const cargo = this.getAttribute("data-cargo");
-                       const descripcionCargo = this.getAttribute("data-desc");
-                       const jefatura = this.getAttribute("data-jefatura") === "true";
+                    button.addEventListener('click', function() {
+                        // Obtenemos los datos del atributo data- de los botones
+                        const idCargo = button.getAttribute("data-id");
+                        const cargo = button.getAttribute("data-cargo");
+                        const descripcion = button.getAttribute("data-desc");
+                        const jefatura = button.getAttribute("data-jefatura") === 'true';
 
-                       // Y pasamos los datos obtenidos al form
-                       document.getElementById("edit-idCargo").value = idCargo;
-                       document.getElementById("edit-cargo").value = cargo;
-                       document.getElementById("edit-descripcionCargo").value = descripcionCargo;
-                       document.getElementById("edit-jefatura").checked = jefatura;
-
-                       console.log(idCargo)
-                       console.log(cargo)
-                       console.log(descripcionCargo)
-                       console.log(jefatura)
-                   });
+                        // Rellenamos los campos del modal con los datos obtenidos
+                        document.getElementById("edit-idCargo").value = idCargo;
+                        document.getElementById("edit-cargo").value = cargo;
+                        document.getElementById("edit-descripcionCargo").value = descripcion;
+                        document.getElementById("edit-jefatura").checked = jefatura;
+                    });
                 });
             });
-        }
-        mostrarCargos();
+        };
+
+        const mostrarDatosEliminar = () => {
+            document.addEventListener('DOMContentLoaded', function() {
+                const btnEliminar = document.querySelectorAll('btn-eliminar');
+
+                btnEliminar.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const idCargo = button.getAttribute("data-id");
+                        const cargo = button.getAttribute("data-cargo");
+
+                        document.getElementById("del-id").textContent = idCargo;
+                        document.getElementById("del-cargo").textContent = cargo;
+                    });
+                });
+            });
+        };
+
+        mostrarCargosActualizar();
+        mostrarDatosEliminar();
     </script>
 </body>
 </html>

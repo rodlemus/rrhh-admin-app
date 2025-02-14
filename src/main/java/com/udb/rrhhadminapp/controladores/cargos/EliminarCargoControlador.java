@@ -12,13 +12,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(value = "/eliminar-empleado", name = "eliminarEmpleadoControlador")
+@WebServlet(value = "/eliminar-cargo", name = "eliminarCargoControlador")
 public class EliminarCargoControlador extends HttpServlet {
     @Inject
     ICargoRepositorio cargoRepositorio;
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer idCargo = Integer.parseInt(request.getParameter("id"));
+        Integer idCargo = Integer.parseInt(request.getParameter("idCargo"));
 
         Optional<Cargo> cargo = Optional.of(this.cargoRepositorio.buscarCargoPorId(idCargo));
         // Aqui configuramos la respuesta para que sea de tipo JSON
