@@ -115,7 +115,7 @@
                     <form action="registrar-cargo" method="post">
                         <div class="mb-3">
                             <label for="cargo" class="form-label">Nombre del cargo:</label>
-                            <input type="text" class="form-control" id="cargo" aria-labelledby="nombreCargo" name="cargo" required>
+                            <input type="text" class="form-control" id="cargo" aria-labelledby="nombreCargo" name="cargo" autocomplete="off" required>
                         </div>
                         <div class="mb-3">
                             <label for="descripcionCargo" class="form-label">Descripcion del cargo:</label>
@@ -150,7 +150,7 @@
 
                         <div class="mb-3">
                             <label for="edit-cargo" class="form-label">Nombre del cargo:</label>
-                            <input type="text" id="edit-cargo" class="form-control" aria-labelledby="nombreCargo" name="cargo" required>
+                            <input type="text" id="edit-cargo" class="form-control" aria-labelledby="nombreCargo" name="cargo" autocomplete="off" required>
                         </div>
                         <div class="mb-3">
                             <label for="edit-descripcionCargo" class="form-label">Descripcion del cargo:</label>
@@ -247,7 +247,7 @@
             const idCargo = parseInt(document.getElementById('del-idCargo').value);  // Obtenemos el ID del campo oculto
             console.log(typeof idCargo)
             try {
-                const response = await fetch(contextPath + '/eliminar-cargo?id=' + idCargo, {
+                const response = await fetch(contextPath + '/eliminar-cargo?idCargo=' + idCargo, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
@@ -255,6 +255,7 @@
                 });
                 if (response.ok) {
                     console.log("Cargo eliminado con éxito.");
+                    window.location.reload(); // recargamos la pagina para recargar los datos de la tabla
                 } else {
                     console.log("Error al eliminar el cargo.");
                 }
