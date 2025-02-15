@@ -50,7 +50,7 @@
                         <button class="nav-link active" id="cargos" data-bs-toggle="tab" data-bs-target="#cargos-tab-pane" type="button" role="tab" aria-controls="cargos-tab-pane" aria-selected="true">Cargos Disponibles</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="Tcontrato-tab" data-bs-toggle="tab" data-bs-target="#Tcontrato-tab-pane" type="button" role="tab" aria-controls="Tcontrato-tab-pane" aria-selected="false">Tipos de Contrato</button>
+                        <button class="nav-link" id="Tcontrato-tab" data-bs-toggle="tab" data-bs-target="#Tcontrato-tab-pane" type="button" role="tab" aria-controls="Tcontrato-tab-pane" aria-selected="false" onclick="window.location.href='${contextPath}/router-app?modulo=tipos_contratos'">Tipos de Contrato</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="departamentos-tab" data-bs-toggle="tab" data-bs-target="#departamentos-tab-pane" type="button" role="tab" aria-controls="departamentos-tab-pane" aria-selected="false">Departamentos</button>
