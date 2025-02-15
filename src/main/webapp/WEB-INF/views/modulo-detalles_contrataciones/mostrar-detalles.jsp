@@ -178,13 +178,15 @@
                     <h4>Confirmación de eliminación de registro</h4>
                 </div>
                 <div class="modal-body">
-                    <p>
-                        ¿Deseas eliminar el cargo con ID: <span id="del-id"></span> y Nombre: <span id="del-cargo"></span> ?
-                    </p>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger">Confirmar</button>
-                    </div>
+                        <!-- Campo oculto para el ID del cargo -->
+                        <input type="hidden" id="del-idCargo" name="idCargo">
+                        <p>
+                            ¿Deseas eliminar el cargo <strong><span id="del-cargo"></span></strong>?
+                        </p>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger" onclick="eliminarCargo()">Confirmar</button>
+                        </div>
                 </div>
             </div>
         </div>
@@ -224,18 +226,41 @@
 
         const mostrarDatosEliminar = () => {
             document.addEventListener('DOMContentLoaded', function() {
-                const btnEliminar = document.querySelectorAll('btn-eliminar');
+                const btnEliminar = document.querySelectorAll('.btn-eliminar');
 
                 btnEliminar.forEach(button => {
                     button.addEventListener('click', function() {
                         const idCargo = button.getAttribute("data-id");
                         const cargo = button.getAttribute("data-cargo");
 
-                        document.getElementById("del-id").textContent = idCargo;
+                        document.getElementById("del-idCargo").value = idCargo;
                         document.getElementById("del-cargo").textContent = cargo;
+
+                        console.log(idCargo)
                     });
                 });
             });
+        };
+
+        const contextPath = "<%= request.getContextPath() %>";
+        const eliminarCargo = async () => {
+            const idCargo = parseInt(document.getElementById('del-idCargo').value);  // Obtenemos el ID del campo oculto
+            console.log(typeof idCargo)
+            try {
+                const response = await fetch(contextPath + '/eliminar-cargo?id=' + idCargo, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    console.log("Cargo eliminado con éxito.");
+                } else {
+                    console.log("Error al eliminar el cargo.");
+                }
+            } catch (error) {
+                console.log("Error de red o de servidor:", error);
+            }
         };
 
         mostrarCargosActualizar();
