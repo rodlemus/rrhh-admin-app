@@ -32,7 +32,7 @@
     </div>
   </div>
 </nav>
-<div class="container-fluid h-100 w-full d-flex flex-column justify-content-center align-items-center">
+<div class="container-fluid h-100 w-full d-flex flex-column justify-content-center align-items-center mt-3">
   <h1>Registrar Empleado</h1>
   <div class="w-75">
     <!-- Nav Tabs -->
