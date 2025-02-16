@@ -30,7 +30,7 @@ public class DepartamentoRepositorio implements IDepartamentoRepositorio{
             while (rs.next()) {
                 departamento.add(new Departamento(
                         rs.getInt("id"),
-                        rs.getString("departamento"),
+                        rs.getString("nombreDepartamento"),
                         rs.getString("descripcionDepartamento")
                 ));
             }
@@ -45,7 +45,7 @@ public class DepartamentoRepositorio implements IDepartamentoRepositorio{
     // Metodo para registrar un nuevo tipo de contrato en la base
     @Override
     public Departamento agregarDepartamento(Departamento departamento){
-        String query = "INSERT INTO departamento(departamento, descripcionDepartamento) values(?,?);";
+        String query = "INSERT INTO departamento(nombreDepartamento, descripcionDepartamento) values(?,?);";
 
         try (Connection conn = ConexionBaseDeDatos.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -63,7 +63,7 @@ public class DepartamentoRepositorio implements IDepartamentoRepositorio{
     // Metodo para actualizar un tipo de contrato en la base
     @Override
     public void actualizarDepartamento(Departamento departamento) {
-        String query = "UPDATE departamento SET departamento = ?, descripcionDepartamento = ? WHERE id = ?;";
+        String query = "UPDATE departamento SET nombreDepartamento = ?, descripcionDepartamento = ? WHERE id = ?;";
 
         try (Connection conn = ConexionBaseDeDatos.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -113,7 +113,7 @@ public class DepartamentoRepositorio implements IDepartamentoRepositorio{
                 if(rs.next()) {
                     Departamento departamento = new Departamento(
                             rs.getInt("id"),
-                            rs.getString("departamento"),
+                            rs.getString("nombreDepartamento"),
                             rs.getString("descripcionDepartamento")
                     );
 

@@ -21,7 +21,7 @@ public class RegistrarTipoContratoControlador extends HttpServlet {
         try {
             TipoContratacion nuevoTipoC = this.crearInstanciaTipoC(request);
             this.tipoContratoRepositorio.agregarTipoC(nuevoTipoC);
-            response.sendRedirect(request.getContextPath() + "/propiedades");
+            response.sendRedirect(request.getContextPath() + "/tipos_contratos");
         } catch (IOException e) {
             throw new ServletException(e);
         }
