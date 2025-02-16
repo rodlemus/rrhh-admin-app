@@ -28,6 +28,9 @@ public class RouterInicial extends HttpServlet {
             case "tipos_contratos":
                 response.sendRedirect(request.getContextPath() + "/tipos_contratos");
                 break;
+            case "departamentos":
+                response.sendRedirect(request.getContextPath() + "/departamentos");
+                break;
         }
 
     }

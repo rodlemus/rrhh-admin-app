@@ -27,7 +27,7 @@ public class ActualizarTipoContratoControlador extends HttpServlet {
             }
 
             this.tipoContratoRepositorio.actualizarTiposContratos(tipoC);
-            response.sendRedirect(request.getContextPath() + "/propiedades");
+            response.sendRedirect(request.getContextPath() + "/tipos_contratos");
         } catch (IOException e) {
             throw new ServletException(e);
         }

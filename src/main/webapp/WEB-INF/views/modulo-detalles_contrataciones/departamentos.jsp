@@ -38,8 +38,8 @@
     </div>
 
     <div class="container mt-2 mb-4">
-        <button class="btn btn-success p-2 text-white text-center" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarTipoC">
-            <strong class="ml-3">Agregar Nuevo Tipo de Contrato</strong>
+        <button class="btn btn-success p-2 text-white text-center" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarDepartamento">
+            <strong class="ml-3">Agregar Nuevo Departamento</strong>
             <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
                 <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
             </svg>
@@ -50,37 +50,42 @@
                     <button class="nav-link" id="cargos" data-bs-toggle="tab" data-bs-target="#cargos-tab-pane" type="button" role="tab" aria-controls="cargos-tab-pane" aria-selected="false" onclick="window.location.href='${contextPath}/router-app?modulo=propiedades'">Cargos Disponibles</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="Tcontrato" data-bs-toggle="tab" data-bs-target="#Tcontrato-tab-pane" type="button" role="tab" aria-controls="Tcontrato-tab-pane" aria-selected="true">Tipos de Contrato</button>
+                    <button class="nav-link" id="Tcontrato" data-bs-toggle="tab" data-bs-target="#Tcontrato-tab-pane" type="button" role="tab" aria-controls="Tcontrato-tab-pane" aria-selected="false" onclick="window.location.href='${contextPath}/router-app?modulo=tipos_contratos'">Tipos de Contrato</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="departamentos-tab" data-bs-toggle="tab" data-bs-target="#departamentos-tab-pane" type="button" role="tab" aria-controls="departamentos-tab-pane" aria-selected="false" onclick="window.location.href='${contextPath}/router-app?modulo=departamentos'">Departamentos</button>
+                    <button class="nav-link active" id="departamentos-tab" data-bs-toggle="tab" data-bs-target="#departamentos-tab-pane" type="button" role="tab" aria-controls="departamentos-tab-pane" aria-selected="true">Departamentos</button>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade" id="cargos-tab-pane" role="tabpanel" aria-labelledby="cargos-tab" tabindex="0">
 
                 </div>
-                <div class="tab-pane fade show active" id="Tcontrato-tab-pane" role="tabpanel" aria-labelledby="Tcontrato-tab" tabindex="0">
+                <div class="tab-pane fade" id="Tcontrato-tab-pane" role="tabpanel" aria-labelledby="Tcontrato-tab" tabindex="0">
+
+                </div>
+                <div class="tab-pane fade show active" id="departamentos-tab-pane" role="tabpanel" aria-labelledby="departamentos-tab" tabindex="0">
                     <table class="table table-striped w-full">
                         <thead>
                         <tr class="text-center">
                             <th>ID</th>
-                            <th>Tipo de Contrato</th>
+                            <th>Departamento</th>
+                            <th>Descripcion del Departamento</th>
                             <th style="width: 20%;">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${tiposC}" var="tipoC">
+                        <c:forEach items="${departamentos}" var="departamento">
                             <tr class="text-center">
-                                <td>${tipoC.getIdTipoC()}</td>
-                                <td>${tipoC.getTipoC()}</td>
+                                <td>${departamento.getIdDepartamento()}</td>
+                                <td>${departamento.getDepartamento()}</td>
+                                <td>${departamento.getDescripcion()}</td>
                                 <td class="d-flex justify-content-center align-items-center gap-2">
-                                    <button class="btn btn-warning btn-editar" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarTipoC" data-id="${tipoC.getIdTipoC()}" data-tipoc="${tipoC.getTipoC()}">
+                                    <button class="btn btn-warning btn-editar" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarDepartamento" data-id="${departamento.getIdDepartamento()}" data-departamento="${departamento.getDepartamento()}" data-desc="${departamento.getDescripcion()}">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
                                             <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
                                         </svg>
                                     </button>
-                                    <button class="btn btn-danger btn-eliminar" type="button" data-bs-toggle="modal" data-bs-target="#modalEliminarTipoC" data-id="${tipoC.getIdTipoC()}" data-tipoc="${tipoC.getTipoC()}">
+                                    <button class="btn btn-danger btn-eliminar" type="button" data-bs-toggle="modal" data-bs-target="#modalEliminarDepartamento" data-id="${departamento.getIdDepartamento()}" data-departamento="${departamento.getDepartamento()}">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
                                             <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
                                         </svg>
@@ -91,27 +96,28 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="departamentos-tab-pane" role="tabpanel" aria-labelledby="departamentos-tab" tabindex="0">
-
-                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Modal de agregar registros -->
-<div class="modal fade" id="modalAgregarTipoC" tabindex="-1" aria-labelledby="modalAgregarTipoC" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="modalAgregarDepartamento" tabindex="-1" aria-labelledby="modalAgregarDepartamentoLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5>Agregar Tipo de Contrato</h5>
+                <h5>Agregar Departamento</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="registrar-tipoC" method="post">
+                <form action="registrar-departamento" method="post">
                     <div class="mb-3">
-                        <label for="tipoC" class="form-label">Tipo de Contrato:</label>
-                        <input type="text" class="form-control" id="tipoC" aria-labelledby="tipoC" name="tipoC" autocomplete="off" required>
+                        <label for="departamento" class="form-label">Nombre para el Departamento:</label>
+                        <input type="text" class="form-control" id="departamento" aria-labelledby="departamento" name="departamento" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcionDepartamento" class="form-label">Descripcion del Departamento:</label>
+                        <textarea class="form-control" id="descripcionDepartamento" name="descripcionDepartamento" rows="3"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -124,20 +130,24 @@
 </div>
 
 <!-- Modales de actualizar registros-->
-<div class="modal fade" id="modalEditarTipoC" tabindex="-1" aria-labelledby="modalEditarTipoCLabel" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="modalEditarDepartamento" tabindex="-1" aria-labelledby="modalEditarDepartamentoLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5>Actualizar Tipo de Contrato</h5>
+                <h5>Actualizar Departamento</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="actualizar-tipoC" method="post">
-                    <input type="hidden" id="edit-idTipoC" name="idTipoC">
+                <form action="actualizar-departamento" method="post">
+                    <input type="hidden" id="edit-idDepartamento" name="idDepartamento">
 
                     <div class="mb-3">
-                        <label for="tipoC" class="form-label">Tipo de Contrato:</label>
-                        <input type="text" id="edit-tipoC" class="form-control" aria-labelledby="tipoC" name="tipoC" autocomplete="off" required>
+                        <label for="departamento" class="form-label">Nombre para el Departamento:</label>
+                        <input type="text" id="edit-departamento" class="form-control" aria-labelledby="departamento" name="departamento" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcionDepartamento" class="form-label">Descripcion del Departamento:</label>
+                        <textarea class="form-control" id="edit-descripcionDepartamento" name="descripcionDepartamento" rows="3"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -150,7 +160,7 @@
 </div>
 
 <!-- Modal para eliminar registros -->
-<div class="modal fade" id="modalEliminarTipoC" tabindex="-1" aria-labelledby="modalEliminarTipoCLabel" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="modalEliminarDepartamento" tabindex="-1" aria-labelledby="modalEliminarDepartamentoLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -158,13 +168,13 @@
             </div>
             <div class="modal-body">
                 <!--Campo oculto para el ID del cargo-->
-                <input type="hidden" id="del-idTipoC" name="idTipoC">
+                <input type="hidden" id="del-idDepartamento" name="idDepartamento">
                 <p>
-                    ¿Deseas eliminar el tipo de contrato <strong><span id="del-tipoC"></span></strong>?
+                    ¿Deseas eliminar el departamento <strong><span id="del-departamento"></span></strong>?
                 </p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger" onclick="eliminarTipoContrato()">Confirmar</button>
+                    <button type="submit" class="btn btn-danger" onclick="eliminarDepartamento()">Confirmar</button>
                 </div>
             </div>
         </div>
@@ -181,19 +191,21 @@
 <script>
 
     // Funcion para cargar los datos de cargo en el modal de actualizar
-    const mostrarTiposContratosActualizar = () => {
+    const mostrarDepartamentosActualizar = () => {
         document.addEventListener("DOMContentLoaded", function() {
             const editarButton = document.querySelectorAll(".btn-editar");
 
             editarButton.forEach(button => {
                 button.addEventListener('click', function() {
                     // Obtenemos los datos del atributo data- de los botones
-                    const idTipoC = button.getAttribute("data-id");
-                    const tipoC = button.getAttribute("data-tipoc");
+                    const idDepartamento = button.getAttribute("data-id");
+                    const departamento = button.getAttribute("data-departamento");
+                    const descripcion = button.getAttribute("data-desc");
 
                     // Rellenamos los campos del modal con los datos obtenidos
-                    document.getElementById("edit-idTipoC").value = idTipoC;
-                    document.getElementById("edit-tipoC").value = tipoC;
+                    document.getElementById("edit-idDepartamento").value = idDepartamento;
+                    document.getElementById("edit-departamento").value = departamento;
+                    document.getElementById("edit-descripcionDepartamento").value = descripcion;
                 });
             });
         });
@@ -205,40 +217,39 @@
 
             btnEliminar.forEach(button => {
                 button.addEventListener('click', function() {
-                    const idCargo = button.getAttribute("data-id");
-                    const cargo = button.getAttribute("data-tipoc");
+                    const idDepartamento = button.getAttribute("data-id");
+                    const departamento = button.getAttribute("data-departamento");
 
-                    document.getElementById("del-idTipoC").value = idCargo;
-                    document.getElementById("del-tipoC").textContent = cargo;
+                    document.getElementById("del-idDepartamento").value = idDepartamento;
+                    document.getElementById("del-departamento").textContent = departamento;
 
-                    console.log(idCargo)
                 });
             });
         });
     };
 
     const contextPath = "<%= request.getContextPath() %>";
-    const eliminarTipoContrato = async () => {
-        const idTipoC = parseInt(document.getElementById('del-idTipoC').value);  // Obtenemos el ID del campo oculto
+    const eliminarDepartamento = async () => {
+        const idDepa = parseInt(document.getElementById('del-idDepartamento').value);  // Obtenemos el ID del campo oculto
         try {
-            const response = await fetch(contextPath + '/eliminar-tipoC?idTipoC=' + idTipoC, {
+            const response = await fetch(contextPath + '/eliminar-departamento?idDepartamento=' + idDepa, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
             if (response.ok) {
-                console.log("Tipo de Contrato eliminado con éxito.");
+                console.log("Departamento eliminado con éxito.");
                 window.location.reload(); // recargamos la pagina para recargar los datos de la tabla
             } else {
-                console.log("Error al eliminar el tipo de contrato.");
+                console.log("Error al eliminar el departamento.");
             }
         } catch (error) {
             console.log("Error de red o de servidor:", error);
         }
     };
 
-    mostrarTiposContratosActualizar();
+    mostrarDepartamentosActualizar();
     mostrarDatosEliminar();
 
 

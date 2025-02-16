@@ -19,8 +19,8 @@ public class TiposContratoControlador extends HttpServlet{
     ITipoContratoRepositorio tipoContratoRepositorio;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<TipoContratacion> tipoC = this.tipoContratoRepositorio.listarTiposContratos(0, 8);
-        request.setAttribute("tipoC", tipoC);
+        List<TipoContratacion> tiposC = this.tipoContratoRepositorio.listarTiposContratos(0, 8);
+        request.setAttribute("tiposC", tiposC);
         request.getRequestDispatcher("/WEB-INF/views/modulo-detalles_contrataciones/tipos_contratos.jsp").forward(request, response);
     }
 }
