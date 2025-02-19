@@ -296,12 +296,17 @@
         const buscarCargos = () => {
             document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("buscador").addEventListener("input", function() {
-                    let busqueda = this.value;
+                    let busqueda = this.value.trim();
+
+                    if(busqueda === "") return;
 
                     fetch(contextPath + '/buscar-cargo?busqueda=' + encodeURIComponent(busqueda))
                         .then(response => response.json())
                         .then(data => {
+                            console.log("Datos recibidos del servidor:", data);
+
                             let tbody = document.querySelector("table tbody");
+                            console.log(tbody);
                             tbody.innerHTML = ""; // Aqui limpiamos la tabla antes de mostrar los resultados de la busqueda
 
                             if (data.length === 0) {
@@ -310,19 +315,25 @@
                             }
 
                             data.forEach(cargo => {
+
+                                const id = cargo.idCargo;
+                                const nombre_cargo = cargo.cargo;
+                                const descripcion = cargo.descripcionCargo;
+                                const jefatura = cargo.jefatura;
+
                                 let filas =  `
                                 <tr class="text-center">
-                                    <td>${cargo.getIdCargo()}</td>
-                                    <td>${cargo.getCargo()}</td>
-                                    <td>${cargo.getDescripcionCargo()}</td>
-                                    <td>${cargo.isJefatura()}</td>
+                                    <td>${id}</td>
+                                    <td>${nombre_cargo}</td>
+                                    <td>${descripcion}</td>
+                                    <td>${jefatura}</td>
                                     <td class="d-flex justify-content-center align-items-center gap-2">
-                                        <button class="btn btn-warning btn-editar" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarCargo" data-id="${cargo.getIdCargo()}" data-cargo="${cargo.getCargo()}" data-desc="${cargo.getDescripcionCargo()}" data-jefatura="${cargo.isJefatura()}">
+                                        <button class="btn btn-warning btn-editar" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarCargo" data-id="${id}" data-cargo="${nombre_cargo}" data-desc="${descripcion}" data-jefatura="${jefatura}">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
                                                 <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
                                             </svg>
                                         </button>
-                                        <button class="btn btn-danger btn-eliminar" type="button" data-bs-toggle="modal" data-bs-target="#modalEliminarCargo" data-id="${cargo.getIdCargo()}" data-cargo="${cargo.getCargo()}">
+                                        <button class="btn btn-danger btn-eliminar" type="button" data-bs-toggle="modal" data-bs-target="#modalEliminarCargo" data-id="${id}" data-cargo="${nombre_cargo}">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
                                                 <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
                                             </svg>
@@ -330,8 +341,7 @@
                                     </td>
                                 </tr>
                             `;
-
-                                tbody.innerHTML += filas;
+                                tbody.insertAdjacentHTML('beforeend', filas);
                             });
                         })
                         .catch(error => console.log("Error en la busqueda: ", error));

@@ -161,9 +161,9 @@ public class CargoRepositorio implements ICargoRepositorio {
 
             while (rs.next()) {
                 Cargo cargo = new Cargo();
-                cargo.setIdCargo(rs.getInt("id_cargo"));
+                cargo.setIdCargo(rs.getInt("id"));
                 cargo.setCargo(rs.getString("cargo"));
-                cargo.setDescripcionCargo(rs.getString("descripcion_cargo"));
+                cargo.setDescripcionCargo(rs.getString("descripcionCargo"));
                 cargo.setJefatura(rs.getBoolean("jefatura"));
 
                 cargos.add(cargo);
