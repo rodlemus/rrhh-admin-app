@@ -12,6 +12,6 @@ public interface ICargoRepositorio {
     void eliminarCargo(Integer id);
 
     Cargo buscarCargoPorId(Integer id);
-    Cargo buscarCargoPorNombre(String cargo);
+    List<Cargo> buscarCargoPorNombre(String cargo);
     int contarCargos();
 }

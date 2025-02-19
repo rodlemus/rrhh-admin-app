@@ -38,12 +38,17 @@
         </div>
 
         <div class="container mt-2 mb-4">
-            <button class="btn btn-success p-2 text-white text-center" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarCargo">
-                <strong class="ml-3">Agregar nuevo cargo</strong>
-                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
-                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
-                </svg>
-            </button>
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn btn-success p-2 text-white text-center" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarCargo">
+                    <strong class="ml-3">Agregar nuevo cargo</strong>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+                    </svg>
+                </button>
+                <div class="buscador w-50">
+                    <input type="text" id="buscador" class="form-control p-2" placeholder="Buscar cargo...">
+                </div>
+            </div>
             <div class="w-full mt-2 bg-gray-200">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -288,8 +293,55 @@
             }
         };
 
+        const buscarCargos = () => {
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("buscador").addEventListener("input", function() {
+                    let busqueda = this.value;
+
+                    fetch(contextPath + '/buscar-cargo?busqueda=' + encodeURIComponent(busqueda))
+                        .then(response => response.json())
+                        .then(data => {
+                            let tbody = document.querySelector("table tbody");
+                            tbody.innerHTML = ""; // Aqui limpiamos la tabla antes de mostrar los resultados de la busqueda
+
+                            if (data.length === 0) {
+                                tbody.innerHTML = "<tr><td colspan='5' class='text-center'>No se encontraron resultados</td></tr>";
+                                return;
+                            }
+
+                            data.forEach(cargo => {
+                                let filas =  `
+                                <tr class="text-center">
+                                    <td>${cargo.getIdCargo()}</td>
+                                    <td>${cargo.getCargo()}</td>
+                                    <td>${cargo.getDescripcionCargo()}</td>
+                                    <td>${cargo.isJefatura()}</td>
+                                    <td class="d-flex justify-content-center align-items-center gap-2">
+                                        <button class="btn btn-warning btn-editar" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarCargo" data-id="${cargo.getIdCargo()}" data-cargo="${cargo.getCargo()}" data-desc="${cargo.getDescripcionCargo()}" data-jefatura="${cargo.isJefatura()}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
+                                                <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="btn btn-danger btn-eliminar" type="button" data-bs-toggle="modal" data-bs-target="#modalEliminarCargo" data-id="${cargo.getIdCargo()}" data-cargo="${cargo.getCargo()}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
+                                                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+
+                                tbody.innerHTML += filas;
+                            });
+                        })
+                        .catch(error => console.log("Error en la busqueda: ", error));
+                });
+            });
+        }
+
         mostrarCargosActualizar();
         mostrarDatosEliminar();
+        buscarCargos();
     </script>
 </body>
 </html>

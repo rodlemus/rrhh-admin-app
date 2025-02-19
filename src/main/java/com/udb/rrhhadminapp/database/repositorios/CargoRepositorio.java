@@ -148,7 +148,30 @@ public class CargoRepositorio implements ICargoRepositorio {
     }
 
     @Override
-    public Cargo buscarCargoPorNombre(String cargo) {
-        return null;
+    public List<Cargo> buscarCargoPorNombre(String buscador) {
+        List<Cargo> cargos = new ArrayList<>();
+        String query = "SELECT * FROM cargos WHERE cargo LIKE ? OR descripcionCargo LIKE ?;";
+
+        try (Connection conn = ConexionBaseDeDatos.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query)){
+
+            ps.setString(1, "%" + buscador + "%");
+            ps.setString(2, "%" + buscador + "%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Cargo cargo = new Cargo();
+                cargo.setIdCargo(rs.getInt("id_cargo"));
+                cargo.setCargo(rs.getString("cargo"));
+                cargo.setDescripcionCargo(rs.getString("descripcion_cargo"));
+                cargo.setJefatura(rs.getBoolean("jefatura"));
+
+                cargos.add(cargo);
+            }
+
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
+        return cargos;
     }
 }
