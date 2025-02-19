@@ -127,4 +127,23 @@ public class DepartamentoRepositorio implements IDepartamentoRepositorio{
             throw new RuntimeException("Error al buscar departamento" ,ex);
         }
     }
+
+    @Override
+    public int contarDepartamentos() {
+        String query = "SELECT COUNT(*) FROM departamento;";
+        int contador = 0;
+
+        try (Connection conn = ConexionBaseDeDatos.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery()) {
+
+            if(rs.next()) {
+                contador = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Error al contar el departamento" ,ex);
+        }
+        return contador;
+    }
 }

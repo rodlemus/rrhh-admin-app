@@ -12,4 +12,5 @@ public interface IDepartamentoRepositorio {
     void eliminarDepartamento(Integer id);
 
     Departamento buscarDepartamentoPorId(Integer id);
+    int contarDepartamentos();
 }
