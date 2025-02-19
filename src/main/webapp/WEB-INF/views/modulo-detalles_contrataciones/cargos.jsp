@@ -103,6 +103,30 @@
         </div>
     </section>
 
+    <div class="mb-3">
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center mt-3">
+                <c:if test="${paginaActual > 1}">
+                    <li class="page-item">
+                        <a class="page-link" href="${pageContext.request.contextPath}/propiedades?pagina=${paginaActual - 1}">Anterior</a>
+                    </li>
+                </c:if>
+
+                <c:forEach var="i" begin="1" end="${totalPaginas}">
+                    <li class="page-item ${i == paginaActual ? 'active' : ''}">
+                        <a class="page-link" href="${pageContext.request.contextPath}/propiedades?pagina=${i}">${i}</a>
+                    </li>
+                </c:forEach>
+
+                <c:if test="${paginaActual < totalPaginas}">
+                    <li class="page-item">
+                        <a class="page-link" href="${pageContext.request.contextPath}/propiedades?pagina=${paginaActual + 1}">Siguiente</a>
+                    </li>
+                </c:if>
+            </ul>
+        </nav>
+    </div>
+
     <!-- Modales de agregar registros (cargos, tipos de contrato y departamentos) -->
     <div class="modal fade" id="modalAgregarCargo" tabindex="-1" aria-labelledby="modalAgregarCargo" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">

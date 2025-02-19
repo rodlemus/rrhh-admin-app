@@ -19,8 +19,32 @@ public class TiposContratoControlador extends HttpServlet{
     ITipoContratoRepositorio tipoContratoRepositorio;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<TipoContratacion> tiposC = this.tipoContratoRepositorio.listarTiposContratos(0, 8);
+        int pagina = 1;
+        int tamanio = 5;
+
+        // Verificar si se pasó un parámetro de página
+        if (request.getParameter("pagina") != null) {
+            try {
+                pagina = Integer.parseInt(request.getParameter("pagina"));
+                if (pagina < 1) pagina = 1;
+            } catch (NumberFormatException e) {
+                pagina = 1;
+            }
+        }
+
+        // Calculamos el desplazamiento (offset)
+        int offset = (pagina - 1) * tamanio;
+
+        List<TipoContratacion> tiposC = this.tipoContratoRepositorio.listarTiposContratos(offset, tamanio);
+
+        // Obtenemos el total de tipos de contrataciones para calcular páginas totales
+        int totalDepartamentos = this.tipoContratoRepositorio.contarTiposContratos();
+        int totalPages = (int) Math.ceil((double) totalDepartamentos / tamanio);
+
         request.setAttribute("tiposC", tiposC);
+        request.setAttribute("paginaActual", pagina);
+        request.setAttribute("totalPaginas", totalPages);
+
         request.getRequestDispatcher("/WEB-INF/views/modulo-detalles_contrataciones/tipos_contratos.jsp").forward(request, response);
     }
 }

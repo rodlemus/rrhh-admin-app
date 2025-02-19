@@ -13,4 +13,5 @@ public interface ICargoRepositorio {
 
     Cargo buscarCargoPorId(Integer id);
     Cargo buscarCargoPorNombre(String cargo);
+    int contarCargos();
 }

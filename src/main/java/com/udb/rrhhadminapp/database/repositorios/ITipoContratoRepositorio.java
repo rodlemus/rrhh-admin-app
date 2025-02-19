@@ -12,4 +12,5 @@ public interface ITipoContratoRepositorio {
     void eliminarTiposContratos(Integer id);
 
     TipoContratacion buscarTipoContratoPorId(Integer id);
+    int contarTiposContratos();
 }
