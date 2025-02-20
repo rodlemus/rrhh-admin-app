@@ -19,8 +19,32 @@ public class CargosControlador extends HttpServlet {
     private ICargoRepositorio cargoRepositorio;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Cargo> cargos = this.cargoRepositorio.listarCargos(0, 8);
+        int pagina = 1;
+        int tamanio = 5;
+
+        // Verificar si se pasó un parámetro de página
+        if (request.getParameter("pagina") != null) {
+            try {
+                pagina = Integer.parseInt(request.getParameter("pagina"));
+                if (pagina < 1) pagina = 1;
+            } catch (NumberFormatException e) {
+                pagina = 1;
+            }
+        }
+
+        // Calculamos el desplazamiento (offset)
+        int offset = (pagina - 1) * tamanio;
+
+        List<Cargo> cargos = this.cargoRepositorio.listarCargos(offset, tamanio);
+
+        // Obtenemos el total de cargos para calcular páginas totales
+        int totalDepartamentos = this.cargoRepositorio.contarCargos();
+        int totalPages = (int) Math.ceil((double) totalDepartamentos / tamanio);
+
         request.setAttribute("cargos", cargos);
+        request.setAttribute("paginaActual", pagina);
+        request.setAttribute("totalPaginas", totalPages);
+
         request.getRequestDispatcher("/WEB-INF/views/modulo-detalles_contrataciones/cargos.jsp").forward(request, response);
     }
 }

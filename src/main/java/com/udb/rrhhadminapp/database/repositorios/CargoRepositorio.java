@@ -129,7 +129,49 @@ public class CargoRepositorio implements ICargoRepositorio {
     }
 
     @Override
-    public Cargo buscarCargoPorNombre(String cargo) {
-        return null;
+    public int contarCargos() {
+        String query = "SELECT COUNT(*) FROM cargos;";
+        int contador = 0;
+
+        try (Connection conn = ConexionBaseDeDatos.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            if(rs.next()) {
+                contador = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Error al contar el cargos" ,ex);
+        }
+        return contador;
+    }
+
+    @Override
+    public List<Cargo> buscarCargoPorNombre(String buscador) {
+        List<Cargo> cargos = new ArrayList<>();
+        String query = "SELECT * FROM cargos WHERE cargo LIKE ? OR descripcionCargo LIKE ?;";
+
+        try (Connection conn = ConexionBaseDeDatos.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query)){
+
+            ps.setString(1, "%" + buscador + "%");
+            ps.setString(2, "%" + buscador + "%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Cargo cargo = new Cargo();
+                cargo.setIdCargo(rs.getInt("id"));
+                cargo.setCargo(rs.getString("cargo"));
+                cargo.setDescripcionCargo(rs.getString("descripcionCargo"));
+                cargo.setJefatura(rs.getBoolean("jefatura"));
+
+                cargos.add(cargo);
+            }
+
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
+        return cargos;
     }
 }
