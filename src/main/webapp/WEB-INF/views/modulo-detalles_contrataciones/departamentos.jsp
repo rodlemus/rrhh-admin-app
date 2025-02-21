@@ -38,12 +38,17 @@
     </div>
 
     <div class="container mt-2 mb-4">
-        <button class="btn btn-success p-2 text-white text-center" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarDepartamento">
-            <strong class="ml-3">Agregar Nuevo Departamento</strong>
-            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
-                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
-            </svg>
-        </button>
+        <div class="d-flex justify-content-between align-items-center">
+            <button class="btn btn-success p-2 text-white text-center" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarDepartamento">
+                <strong class="ml-3">Agregar Nuevo Departamento</strong>
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
+                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+                </svg>
+            </button>
+            <div class="buscador w-50">
+                <input type="text" id="buscador" class="form-control p-2" placeholder="Buscar departamento...">
+            </div>
+        </div>
         <div class="w-full mt-2 bg-gray-200">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -273,9 +278,31 @@
         }
     };
 
+    const buscarDepartamentos = () => {
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputBuscador = document.getElementById("buscador");
+            const filas = document.querySelectorAll("tbody tr");
+
+            inputBuscador.addEventListener("input", function() {
+                const filtro = inputBuscador.value.trim().toLowerCase();
+
+                filas.forEach(fila => {
+                    const departamento = fila.querySelector("td:nth-child(2)").textContent.toLowerCase();
+
+                    // Si el nombre del departamento contiene el texto del input, mostramos la fila, de lo contrario, la ocultamos, usando propiedades css
+                    if (departamento.includes(filtro)) {
+                        fila.style.display = "";
+                    } else {
+                        fila.style.display = "none";
+                    }
+                });
+            });
+        });
+    }
+
     mostrarDepartamentosActualizar();
     mostrarDatosEliminar();
-
+    buscarDepartamentos();
 
 </script>
 </body>

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/global.css" type="text/css">
 </head>
 <body class="d-flex flex-column justify-content-between">
+
     <nav class="navbar navbar-expand-lg bg-body-tertiary " data-bs-theme="dark">
         <div class="container-fluid">
         <a class="navbar-brand" href="#">RR-HH Admin App</a>
@@ -230,6 +231,8 @@
 
     <script>
 
+        const contextPath = "<%= request.getContextPath() %>";
+
         // Funcion para cargar los datos de cargo en el modal de actualizar
         const mostrarCargosActualizar = () => {
             document.addEventListener("DOMContentLoaded", function() {
@@ -271,7 +274,6 @@
             });
         };
 
-        const contextPath = "<%= request.getContextPath() %>";
         const eliminarCargo = async () => {
             const idCargo = parseInt(document.getElementById('del-idCargo').value);  // Obtenemos el ID del campo oculto
             console.log(typeof idCargo)
@@ -295,56 +297,22 @@
 
         const buscarCargos = () => {
             document.addEventListener("DOMContentLoaded", function() {
-                document.getElementById("buscador").addEventListener("input", function() {
-                    let busqueda = this.value.trim();
+                const inputBuscador = document.getElementById("buscador");
+                const filas = document.querySelectorAll("tbody tr");
 
-                    if(busqueda === "") return;
+                inputBuscador.addEventListener("input", function() {
+                    const filtro = inputBuscador.value.trim().toLowerCase();
 
-                    fetch(contextPath + '/buscar-cargo?busqueda=' + encodeURIComponent(busqueda))
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log("Datos recibidos del servidor:", data);
+                    filas.forEach(fila => {
+                        const nombreCargo = fila.querySelector("td:nth-child(2)").textContent.toLowerCase();
 
-                            let tbody = document.querySelector("table tbody");
-                            console.log(tbody);
-                            tbody.innerHTML = ""; // Aqui limpiamos la tabla antes de mostrar los resultados de la busqueda
-
-                            if (data.length === 0) {
-                                tbody.innerHTML = "<tr><td colspan='5' class='text-center'>No se encontraron resultados</td></tr>";
-                                return;
-                            }
-
-                            data.forEach(cargo => {
-
-                                const id = cargo.idCargo;
-                                const nombre_cargo = cargo.cargo;
-                                const descripcion = cargo.descripcionCargo;
-                                const jefatura = cargo.jefatura;
-
-                                let filas =  `
-                                <tr class="text-center">
-                                    <td>${id}</td>
-                                    <td>${nombre_cargo}</td>
-                                    <td>${descripcion}</td>
-                                    <td>${jefatura}</td>
-                                    <td class="d-flex justify-content-center align-items-center gap-2">
-                                        <button class="btn btn-warning btn-editar" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarCargo" data-id="${id}" data-cargo="${nombre_cargo}" data-desc="${descripcion}" data-jefatura="${jefatura}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
-                                                <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
-                                            </svg>
-                                        </button>
-                                        <button class="btn btn-danger btn-eliminar" type="button" data-bs-toggle="modal" data-bs-target="#modalEliminarCargo" data-id="${id}" data-cargo="${nombre_cargo}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#fff">
-                                                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                            `;
-                                tbody.insertAdjacentHTML('beforeend', filas);
-                            });
-                        })
-                        .catch(error => console.log("Error en la busqueda: ", error));
+                        // Si el nombre del cargo contiene el texto del input, mostramos la fila, de lo contrario, la ocultamos, usando propiedades css
+                        if (nombreCargo.includes(filtro)) {
+                            fila.style.display = "";
+                        } else {
+                            fila.style.display = "none";
+                        }
+                    });
                 });
             });
         }
@@ -352,6 +320,8 @@
         mostrarCargosActualizar();
         mostrarDatosEliminar();
         buscarCargos();
+
     </script>
+
 </body>
 </html>
