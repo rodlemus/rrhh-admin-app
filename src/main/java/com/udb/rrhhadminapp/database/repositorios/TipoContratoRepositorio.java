@@ -41,6 +41,30 @@ public class TipoContratoRepositorio implements ITipoContratoRepositorio{
         return tiposC;
     }
 
+    @Override
+    public List<TipoContratacion> listarTiposContratos() {
+        String query = "SELECT * FROM tipo_contratacion;";
+        List<TipoContratacion> tiposC = new ArrayList<>();
+
+        try (Connection conn = ConexionBaseDeDatos.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                tiposC.add(new TipoContratacion(
+                        rs.getInt("id"),
+                        rs.getString("tipoContratacion")
+                ));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Error al listar los tipos de contratos disponibles" ,ex);
+        }
+
+        return tiposC;
+    }
+
     // Metodo para registrar un nuevo tipo de contrato en la base
     @Override
     public TipoContratacion agregarTipoC(TipoContratacion tipoC){

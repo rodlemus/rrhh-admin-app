@@ -7,6 +7,7 @@ import java.util.List;
 public interface IDepartamentoRepositorio {
 
     List<Departamento> listarDepartamentos(int offset, int limit);
+    List<Departamento> listarDepartamentos();
     Departamento agregarDepartamento(Departamento departamento);
     void actualizarDepartamento(Departamento departamento);
     void eliminarDepartamento(Integer id);
