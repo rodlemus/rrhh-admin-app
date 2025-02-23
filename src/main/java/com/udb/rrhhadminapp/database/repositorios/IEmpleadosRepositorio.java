@@ -9,7 +9,7 @@ public interface IEmpleadosRepositorio {
      void eliminar(Integer empleadoId);
      List<Empleado> listar(int offset, int limit);
      Empleado buscarPorId(Integer id);
-     Empleado buscarPorDui(String dui);
+     List<Empleado> buscarPorDui(String dui);
      void actualizar(Empleado empleado);
 
 }

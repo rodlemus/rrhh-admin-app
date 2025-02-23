@@ -126,8 +126,35 @@ public class EmpleadoRepositorio implements IEmpleadosRepositorio{
 
 
     @Override
-    public Empleado buscarPorDui(String dui) {
-        return null;
+    public List<Empleado> buscarPorDui(String dui) {
+        String sql = "SELECT * FROM empleados WHERE numerodui LIKE ?";
+        List<Empleado> empleados = new ArrayList<>();
+
+        try (Connection connection = ConexionBaseDeDatos.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            // Establecer el parámetro 'id' en la consulta
+            statement.setString(1, dui + "%");
+
+            // Ejecutar la consulta
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                empleados.add(new Empleado(
+                        rs.getInt("id"),
+                        rs.getString("numerodui"),
+                        rs.getString("nombrepersona"),
+                        rs.getString("usuario"),
+                        rs.getString("numerotelefono"),
+                        rs.getString("correoinstitucional"),
+                        rs.getDate("fechanacimiento")
+                ));
+            }
+
+        return empleados;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al buscar el empleado", e);
+        }
     }
 
     @Override

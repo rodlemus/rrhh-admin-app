@@ -7,6 +7,7 @@ import java.util.List;
 public interface ICargoRepositorio {
 
     List<Cargo> listarCargos(int offset, int limit);
+    List<Cargo> listarCargos();
     Cargo agregarCargo(Cargo cargo);
     void actualizarCargo(Cargo cargo);
     void eliminarCargo(Integer id);

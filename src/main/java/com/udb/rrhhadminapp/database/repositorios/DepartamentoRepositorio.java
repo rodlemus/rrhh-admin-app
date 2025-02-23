@@ -42,6 +42,31 @@ public class DepartamentoRepositorio implements IDepartamentoRepositorio{
         return departamento;
     }
 
+    @Override
+    public List<Departamento> listarDepartamentos() {
+        String query = "SELECT * FROM departamento;";
+        List<Departamento> departamento = new ArrayList<>();
+
+        try (Connection conn = ConexionBaseDeDatos.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                departamento.add(new Departamento(
+                        rs.getInt("id"),
+                        rs.getString("nombreDepartamento"),
+                        rs.getString("descripcionDepartamento")
+                ));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Error al listar los departamentos disponibles" ,ex);
+        }
+
+        return departamento;
+    }
+
     // Metodo para registrar un nuevo tipo de contrato en la base
     @Override
     public Departamento agregarDepartamento(Departamento departamento){

@@ -44,6 +44,32 @@ public class CargoRepositorio implements ICargoRepositorio {
     }
 
     @Override
+    public List<Cargo> listarCargos() {
+        String query = "SELECT * FROM cargos;";
+        List<Cargo> cargos = new ArrayList<>();
+
+        try (Connection conn = ConexionBaseDeDatos.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                cargos.add(new Cargo(
+                        rs.getInt("id"),
+                        rs.getString("cargo"),
+                        rs.getString("descripcionCargo"),
+                        rs.getBoolean("jefatura")
+                ));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Error al listar los cargos disponibles" ,ex);
+        }
+
+        return cargos;
+    }
+
+    @Override
     public Cargo agregarCargo(Cargo cargo){
         String query = "INSERT INTO cargos(cargo, descripcionCargo, jefatura) values(?,?,?);";
 
