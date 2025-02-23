@@ -219,7 +219,7 @@
 
 <script>
 
-    // Funcion para cargar los datos de cargo en el modal de actualizar
+    // Funcion para cargar los datos de departamentos en el modal de actualizar
     const mostrarDepartamentosActualizar = () => {
         document.addEventListener("DOMContentLoaded", function() {
             const editarButton = document.querySelectorAll(".btn-editar");

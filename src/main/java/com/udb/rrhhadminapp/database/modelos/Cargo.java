@@ -22,9 +22,6 @@ public class Cargo {
         this.jefatura = jefatura;
     }
 
-    // Definimos un constructor para el buscador
-    public Cargo() {}
-
     // Aqui Establecemos los metodos Get y Set para el manejo de los atributos(campos) de la tabla Cargos
     public Integer getIdCargo() {
         return idCargo;
