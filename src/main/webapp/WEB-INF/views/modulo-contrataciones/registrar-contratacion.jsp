@@ -33,60 +33,111 @@
     </div>
 </nav>
 <div class="container-fluid  d-flex flex-column justify-content-center align-items-center">
-    <div class="bg-white p-4 rounded shadow-lg w-100 w-md-50">
-        <h2 class="h4 text-dark mb-4">Buscar Empleado</h2>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Crear Contratación</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Contact</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button>
+        </li>
+    </ul>
+    <div class="tab-content h-100 w-100" id="myTabContent">
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="bg-white p-4 rounded shadow-lg w-100 w-md-50">
+                <h2 class="h4 text-dark mb-4">Buscar Empleado</h2>
 
-        <label for="buscador" class="form-label">DUI:</label>
-        <input type="text" id="buscador"
-               class="form-control mb-2"
-               placeholder="Ingrese el DUI">
+                <label for="buscador" class="form-label">DUI:</label>
+                <input type="text" id="buscador"
+                       class="form-control mb-2"
+                       placeholder="Ingrese el DUI">
 
-        <div class="mt-2">
-            <ul id="resultados" class="list-group bg-white border rounded shadow p-2 d-none">
+                <div class="mt-2">
+                    <ul id="resultados" class="list-group bg-white border rounded shadow p-2 d-none">
 
-            </ul>
+                    </ul>
+                </div>
+
+                <div id="usuario-info" class="card p-3">
+                    <h5 id="usuario-nombre" class="fw-bold"></h5>
+                    <p><strong>DUI:</strong> <span id="usuario-dui"></span></p>
+                    <p><strong>ID Empleado: </strong><span id="usuario-id"></span></p>
+                    <p><strong>Teléfono:</strong> <span id="usuario-telefono"></span></p>
+                </div>
+
+
+
+                <label for="tipoCargo" class="form-label mt-4">Tipo de Cargo:</label>
+                <select id="tipoCargo" class="form-select">
+                    <c:forEach items="${cargos}" var="cargo">
+                        <option value="${cargo.getIdCargo()}">${cargo.getCargo()} - ${cargo.getDescripcionCargo()}</option>
+                    </c:forEach>
+                </select>
+
+                <label for="departamento" class="form-label mt-4">Departamento:</label>
+                <select id="departamento" class="form-select">
+                    <c:forEach items="${departamentos}" var="departamento">
+                        <option value="${departamento.getIdDepartamento()}">${departamento.getDepartamento()} - ${departamento.getDescripcion()}</option>
+                    </c:forEach>
+                </select>
+
+                <label for="tipoContratacion" class="form-label mt-4">Tipo de Contratación:</label>
+                <select id="tipoContratacion" class="form-select">
+                    <c:forEach items="${tiposContrataciones}" var="tipoContratacion">
+                        <option value="${tipoContratacion.getIdTipoC()}">${tipoContratacion.getTipoC()}</option>
+                    </c:forEach>
+                </select>
+                <!-- Input para la Fecha de Contratación -->
+                <label for="fechaContratacion" class="form-label mt-4">Fecha de Contratación:</label>
+                <input type="date" id="fechaContratacion" class="form-control mb-2" placeholder="Seleccione la fecha de contratación">
+
+                <!-- Input para el Salario -->
+                <label for="salario" class="form-label mt-4">Salario:</label>
+                <input type="number" id="salario" class="form-control mb-2" placeholder="Ingrese el salario" step="0.01">
+                <div>
+                    <button type="button" class="btn btn-primary mt-4" id="btnGuardarContratacion">Guardar Contratación</button>
+                </div>
+            </div>
         </div>
+        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <h1>Listar Contratacio</h1>
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID Empleado</th>
+                    <th>Departamento</th>
+                    <th>Tipo de Contratación</th>
+                    <th>Cargo</th>
+                    <th>Salario</th>
+                    <th>Estado</th>
+                </tr>
+                </thead>
+                <tbody id="contrataciones-body">
+                <!-- Aquí se insertarán las filas dinámicamente -->
+                </tbody>
+                <tfoot>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+                </tfoot>
+            </table>
 
-        <div id="usuario-info" class="card p-3">
-            <h5 id="usuario-nombre" class="fw-bold"></h5>
-            <p><strong>DUI:</strong> <span id="usuario-dui"></span></p>
-            <p><strong>ID Empleado: </strong><span id="usuario-id"></span></p>
-            <p><strong>Teléfono:</strong> <span id="usuario-telefono"></span></p>
         </div>
-
-
-
-        <label for="tipoCargo" class="form-label mt-4">Tipo de Cargo:</label>
-        <select id="tipoCargo" class="form-select">
-            <c:forEach items="${cargos}" var="cargo">
-                <option value="${cargo.getIdCargo()}">${cargo.getCargo()} - ${cargo.getDescripcionCargo()}</option>
-            </c:forEach>
-        </select>
-
-        <label for="departamento" class="form-label mt-4">Departamento:</label>
-        <select id="departamento" class="form-select">
-            <c:forEach items="${departamentos}" var="departamento">
-                <option value="${departamento.getIdDepartamento()}">${departamento.getDepartamento()} - ${departamento.getDescripcion()}</option>
-            </c:forEach>
-        </select>
-
-        <label for="tipoContratacion" class="form-label mt-4">Tipo de Contratación:</label>
-        <select id="tipoContratacion" class="form-select">
-            <c:forEach items="${tiposContrataciones}" var="tipoContratacion">
-                <option value="${tipoContratacion.getIdTipoC()}">${tipoContratacion.getTipoC()}</option>
-            </c:forEach>
-        </select>
-        <!-- Input para la Fecha de Contratación -->
-        <label for="fechaContratacion" class="form-label mt-4">Fecha de Contratación:</label>
-        <input type="date" id="fechaContratacion" class="form-control mb-2" placeholder="Seleccione la fecha de contratación">
-
-        <!-- Input para el Salario -->
-        <label for="salario" class="form-label mt-4">Salario:</label>
-        <input type="number" id="salario" class="form-control mb-2" placeholder="Ingrese el salario" step="0.01">
-        <div>
-            <button type="button" class="btn btn-primary mt-4" id="btnGuardarContratacion">Guardar Contratación</button>
-        </div>
+        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>
+        <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
     </div>
+
     <div class="bg-dark text-light text-center py-3 mt-auto w-100">
         <p class="mb-0">© 2025 Desarrollo de Aplicaciones con Web Frameworks.</p>
     </div>
@@ -97,7 +148,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalnesert2@11"></script>
 
 <script>
     const contextPath = "<%= request.getContextPath() %>";
@@ -224,6 +275,17 @@
             });
         }
     });
+
+
+    //listar contrataciones
+    const cargarContrataciones = async (page = 1, limit = 5) => {
+        const result = await fetch(`${contextPath}/listar-contrataciones?page=`+page+'&limit='+limit);
+        const response = await result.json();
+
+        console.log(response)
+    }
+
+    cargarContrataciones();
 </script>
 
 </body>

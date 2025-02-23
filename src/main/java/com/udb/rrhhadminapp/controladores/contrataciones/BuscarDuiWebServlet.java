@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(value = "/buscar-dui", name = "buscarDuiController")
-public class ContratacionesSearcherWebServlet extends HttpServlet {
+public class BuscarDuiWebServlet extends HttpServlet {
     @Inject
     private IEmpleadosRepositorio empleadosRepositorio;
 

@@ -5,9 +5,17 @@ public class Contrataciones {
     // Atributos que hacen referencia a la tabla Contrataciones
     private Integer idContratacion;
     private Integer idEmpleado;
+    private String nombreEmpleado;
+
     private Integer idDepartamento;
+    private String nombreDepartamento;
+
     private Integer idTipoContratacion;
+    private String nombreTipoContratacion;
+
     private Integer idCargo;
+    private String nombreCargo;
+
     private String fechaContratacion;
     private Double salario;
     private Boolean estado;
@@ -101,5 +109,37 @@ public class Contrataciones {
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
+    }
+
+    public String getNombreEmpleado() {
+        return nombreEmpleado;
+    }
+
+    public void setNombreEmpleado(String nombreEmpleado) {
+        this.nombreEmpleado = nombreEmpleado;
+    }
+
+    public String getNombreDepartamento() {
+        return nombreDepartamento;
+    }
+
+    public void setNombreDepartamento(String nombreDepartamento) {
+        this.nombreDepartamento = nombreDepartamento;
+    }
+
+    public String getNombreTipoContratacion() {
+        return nombreTipoContratacion;
+    }
+
+    public void setNombreTipoContratacion(String nombreTipoContratacion) {
+        this.nombreTipoContratacion = nombreTipoContratacion;
+    }
+
+    public String getNombreCargo() {
+        return nombreCargo;
+    }
+
+    public void setNombreCargo(String nombreCargo) {
+        this.nombreCargo = nombreCargo;
     }
 }

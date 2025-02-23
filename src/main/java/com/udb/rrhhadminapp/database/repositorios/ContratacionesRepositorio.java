@@ -45,7 +45,25 @@ public class ContratacionesRepositorio implements IContratacionesRepositorio {
 
     @Override
     public List<Contrataciones> listarContrataciones(int offset, int limit) {
-        String query = "SELECT * FROM contrataciones ORDER BY id_contratacion ASC LIMIT ? OFFSET ?;";
+        String query = """
+        SELECT
+            c.id,
+            c.idempleado, e.nombrepersona AS nombreEmpleado,
+            c.iddepartamento, d.nombredepartamento AS nombreDepartamento,
+            c.idtipocontratacion, t.tipocontratacion AS nombreTipoContratacion,
+            c.idcargo, ca.cargo AS nombreCargo,
+            c.fechacontratacion,
+            c.salario,
+            c.estado
+        FROM contrataciones c
+        JOIN empleados e ON c.idempleado = e.id
+        JOIN departamento d ON c.iddepartamento = d.id
+        JOIN tipo_contratacion t ON c.idtipocontratacion = t.id
+        JOIN cargos ca ON c.idcargo = ca.id
+        ORDER BY c.fechacontratacion ASC
+        LIMIT ? OFFSET ?;
+    """;
+
         List<Contrataciones> contrataciones = new ArrayList<>();
 
         try (Connection conn = ConexionBaseDeDatos.getConnection();
@@ -56,16 +74,26 @@ public class ContratacionesRepositorio implements IContratacionesRepositorio {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                contrataciones.add(new Contrataciones(
-                        rs.getInt("id_contratacion"),
-                        rs.getInt("id_empleado"),
-                        rs.getInt("id_departamento"),
-                        rs.getInt("id_tipo_contratacion"),
-                        rs.getInt("id_cargo"),
-                        rs.getString("fecha_contratacion"),
-                        rs.getDouble("salario"),
-                        rs.getBoolean("estado")
-                ));
+                Contrataciones contratacion = new Contrataciones();
+                contratacion.setIdContratacion(rs.getInt("id"));
+
+                contratacion.setIdEmpleado(rs.getInt("idempleado"));
+                contratacion.setNombreEmpleado(rs.getString("nombreEmpleado"));
+
+                contratacion.setIdDepartamento(rs.getInt("iddepartamento"));
+                contratacion.setNombreDepartamento(rs.getString("nombreDepartamento"));
+
+                contratacion.setIdTipoContratacion(rs.getInt("idtipocontratacion"));
+                contratacion.setNombreTipoContratacion(rs.getString("nombreTipoContratacion"));
+
+                contratacion.setIdCargo(rs.getInt("idcargo"));
+                contratacion.setNombreCargo(rs.getString("nombreCargo"));
+
+                contratacion.setFechaContratacion(rs.getString("fechacontratacion"));
+                contratacion.setSalario(rs.getDouble("salario"));
+                contratacion.setEstado(rs.getBoolean("estado"));
+
+                contrataciones.add(contratacion);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -74,6 +102,7 @@ public class ContratacionesRepositorio implements IContratacionesRepositorio {
 
         return contrataciones;
     }
+
 
     @Override
     public Contrataciones agregarContratacion(Contrataciones contratacion) {
