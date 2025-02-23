@@ -26,15 +26,16 @@ public class ContratacionesPaginacionController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
        try{
-           Integer pagina = Integer.parseInt(Optional.ofNullable(request.getParameter("pagina")).orElse("1"));
-           Integer limit = Integer.parseInt(Optional.ofNullable(request.getParameter("pagina")).orElse("5"));
+           Integer pagina = Integer.parseInt(Optional.ofNullable(request.getParameter("page")).orElse("1"));
+           Integer limit = Integer.parseInt(Optional.ofNullable(request.getParameter("limit")).orElse("5"));
            Integer totalContrataciones = this.contratacionesRepositorio.contarContrataciones();
            Integer offset = (pagina - 1) * limit;
+           Integer totalPaginas = (int) Math.ceil((double) totalContrataciones / limit);
 
            List<Contrataciones> contrataciones = this.contratacionesRepositorio.listarContrataciones(offset, limit);
 
            // Crear objeto de respuesta
-           var respuesta = new JsonResponse(totalContrataciones, contrataciones);
+           var respuesta = new JsonResponse(totalPaginas, contrataciones);
 
            // Configurar la respuesta HTTP
 
@@ -53,11 +54,11 @@ public class ContratacionesPaginacionController extends HttpServlet {
     }
 
     static class JsonResponse {
-        public Integer totalContrataciones;
+        public Integer totalPaginas;
         public List<Contrataciones> contrataciones;
 
-        public JsonResponse(Integer totalContrataciones, List<Contrataciones> contrataciones) {
-            this.totalContrataciones = totalContrataciones;
+        public JsonResponse(Integer totalPaginas, List<Contrataciones> contrataciones) {
+            this.totalPaginas = totalPaginas;
             this.contrataciones = contrataciones;
         }
     }
